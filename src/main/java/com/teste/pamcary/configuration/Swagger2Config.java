@@ -24,7 +24,7 @@ public class Swagger2Config {
                 .paths(PathSelectors.regex("/.*"))
                 .build().apiInfo(apiInfo() );
     }
-    //Customize conforme sua necessidade
+
     private ApiInfo apiInfo() {
         return new ApiInfo(
                 "cadastro-aluno",

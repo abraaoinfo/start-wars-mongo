@@ -35,7 +35,7 @@ public class AlunoController {
     @GetMapping({"/{alunoId}"})
     @ApiOperation(value = "recuperar aluno pelo id", response = List.class)
     public ResponseEntity<Aluno> getAluno(@PathVariable Long alunoId) {
-        log.info("buscando aluno por id {}", alunoId);
+         log.info("buscando aluno por id {}", alunoId);
         return ResponseEntity.ok(alunoService.getAlunoById(alunoId));
     }
 
@@ -48,9 +48,9 @@ public class AlunoController {
     }
 
 
-    @PutMapping({"/{alunoId}"})
+    @PutMapping("/{alunodId}")
     @ApiOperation(value = "atualiza aluno")
-    public ResponseEntity<?> atualizaAluno(@RequestBody  @Valid AlunoDTO alunoDTO, @PathVariable Long alunodId) {
+    public ResponseEntity<?> atualizaAluno(@PathVariable Long alunodId, @RequestBody @Valid AlunoDTO alunoDTO) {
         log.info("criando aluno {}", alunoDTO);
         alunoService.updateAluno(alunodId,alunoDTO);
         return ResponseEntity.ok(alunoDTO);

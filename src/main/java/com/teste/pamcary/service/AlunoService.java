@@ -28,6 +28,7 @@ public class AlunoService {
 
    @Transactional
    public void removeAluno(Long id){
+
       alunoRepository.deleteById(id);
    }
 

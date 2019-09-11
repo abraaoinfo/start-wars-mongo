@@ -1,4 +1,4 @@
-package com.teste.pamcary.exception;
+package com.teste.pamcary.handler;
 
 import lombok.Builder;
 import lombok.Data;

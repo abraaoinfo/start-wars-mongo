@@ -1,6 +1,6 @@
 server:
   port: 8000
-
+  context-path: /aluno
 spring:
 
   datasource:

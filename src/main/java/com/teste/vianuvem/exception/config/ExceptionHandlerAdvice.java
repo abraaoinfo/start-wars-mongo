@@ -1,8 +1,7 @@
-package com.teste.pamcary.handler;
+package com.teste.vianuvem.exception.config;
 
-import com.teste.pamcary.exception.AlunoNotFoundException;
+import com.teste.vianuvem.exception.PlanetNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @Slf4j
@@ -30,28 +28,30 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
 
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+    protected ResponseEntity handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
             HttpHeaders headers,
             HttpStatus status,
             WebRequest request) {
 
-        log.error(ex.getMessage(), ex);
-        return new ResponseEntity(ex.getMessage(), headers, HttpStatus.CONFLICT);
+        log.error(ex.getMessage());
+        return createErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), null, null, ex);
 
     }
-
 
     @ExceptionHandler({IllegalArgumentException.class})
     private ResponseEntity<?> handleBadRequestException(Throwable ex) {
         return createErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), null, null, ex);
     }
 
-    @ExceptionHandler({AlunoNotFoundException.class, EmptyResultDataAccessException.class})
-    private ResponseEntity<?> handleOtherExceptions(Exception ex) {
+    @ExceptionHandler({ PlanetNotFoundException.class})
+    private ResponseEntity<?> handleResourceNotFoundException(Throwable ex) {
         return createErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), null, null, ex);
     }
 
-
+    @ExceptionHandler({Exception.class})
+    private ResponseEntity<?> handleOtherExceptions(Exception ex) {
+        return createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), null, null, ex);
+    }
 
 }

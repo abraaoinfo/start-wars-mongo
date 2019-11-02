@@ -1,13 +1,19 @@
 server:
   port: 8000
-  context-path: /aluno
-spring:
+  context-path: /api
 
+management:
+  server:
+    servlet:
+      context-path: /actuator
+
+spring:
   datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password: sa
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost/start-wars?useSSL=false
+    username: root
+    password: '1234'
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
     hikari:
       data-source-properties:
         cachePrepStmts: true
@@ -18,8 +24,14 @@ spring:
         rewriteBatchedStatements: true
         idle-timeout: 10000
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    generate-ddl: false
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    generate-ddl: true
     show_sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
+
+app:
+  aplication-name: api-start-wars
+  api:
+    start-wars:
+      uri: https://swapi.co/api/

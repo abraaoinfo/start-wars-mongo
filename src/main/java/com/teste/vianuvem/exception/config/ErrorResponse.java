@@ -1,4 +1,4 @@
-package com.teste.pamcary.handler;
+package com.teste.vianuvem.exception.config;
 
 import lombok.Builder;
 import lombok.Data;

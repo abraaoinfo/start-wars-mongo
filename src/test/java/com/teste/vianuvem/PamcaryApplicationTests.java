@@ -1,4 +1,4 @@
-package com.teste.pamcary;
+package com.teste.vianuvem;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

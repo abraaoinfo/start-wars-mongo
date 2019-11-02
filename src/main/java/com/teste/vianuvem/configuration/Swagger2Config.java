@@ -1,4 +1,4 @@
-package com.teste.pamcary.configuration;
+package com.teste.vianuvem.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +33,7 @@ public class Swagger2Config {
                 "",
                 new Contact("Pamcary",
                         "https://<url-do-bit-bucket>",
-                        "<email@pamcary.com.br>"),
+                        "<email@vianuvem.com.br>"),
                 "Licence API", "https://www.Pamcary.com.br/", Collections.emptyList());
     }
 }

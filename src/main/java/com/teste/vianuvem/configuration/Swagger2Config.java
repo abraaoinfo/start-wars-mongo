@@ -20,20 +20,20 @@ public class Swagger2Config {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select()
                 .apis(RequestHandlerSelectors
-                        .basePackage("com.abraao.venda.controller"))
+                        .basePackage("com.teste.vianuvem.controller"))
                 .paths(PathSelectors.regex("/.*"))
                 .build().apiInfo(apiInfo() );
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "cadastro-aluno",
-                "Sistemas de cadastro de aluno",
+                "api start wars",
+                "create planet",
                 "0.0.1",
                 "",
-                new Contact("Pamcary",
+                new Contact("via nuvem",
                         "https://<url-do-bit-bucket>",
                         "<email@vianuvem.com.br>"),
-                "Licence API", "https://www.Pamcary.com.br/", Collections.emptyList());
+                "Licence API", "http://vianuvem.com.br/", Collections.emptyList());
     }
 }

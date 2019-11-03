@@ -1,5 +1,6 @@
 package com.teste.vianuvem.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.teste.vianuvem.model.Film;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
@@ -11,13 +12,13 @@ import java.util.List;
 public class FilmDTO {
 
     private Long id;
-    private Long episodeId;
     private String title;
     private String director;
     private LocalDateTime created;
     private String producer;
     private List<StarshipDTO> starshipList;
     private String url;
+    @JsonIgnore
     private List<String> starships;
 
 

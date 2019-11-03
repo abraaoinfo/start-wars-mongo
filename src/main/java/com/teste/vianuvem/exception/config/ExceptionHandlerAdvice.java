@@ -1,5 +1,6 @@
 package com.teste.vianuvem.exception.config;
 
+import com.teste.vianuvem.exception.BadRequestException;
 import com.teste.vianuvem.exception.PlanetNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -39,7 +40,7 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
 
     }
 
-    @ExceptionHandler({IllegalArgumentException.class})
+    @ExceptionHandler({IllegalArgumentException.class, BadRequestException.class})
     private ResponseEntity<?> handleBadRequestException(Throwable ex) {
         return createErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), null, null, ex);
     }

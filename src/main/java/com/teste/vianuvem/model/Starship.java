@@ -6,18 +6,18 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
-@Entity(name = "starship")
+@Entity
+@Table(name="starship")
 public class Starship {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToOne( fetch = FetchType.LAZY)
-    private Film film;
     private String model;
     private String manufacturer;
-    private String uri;
+    @Column(unique = true)
+    private String url;
     private LocalDateTime created;
 
 

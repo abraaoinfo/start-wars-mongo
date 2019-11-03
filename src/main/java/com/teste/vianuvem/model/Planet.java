@@ -1,16 +1,15 @@
 package com.teste.vianuvem.model;
 
 import lombok.Data;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
-@Entity(name = "planet")
+@Entity
+@Table(name="planet")
 public class Planet {
 
     @Id
@@ -27,7 +26,7 @@ public class Planet {
     @JoinTable(name = "planet_film",
             joinColumns = { @JoinColumn(name = "planet_id") },
             inverseJoinColumns = { @JoinColumn(name = "film_id") })
-    private Set<Film> filmsList  = new HashSet<>();;
+    private Set<Film> filmsList  = new HashSet<>();
 
 
 

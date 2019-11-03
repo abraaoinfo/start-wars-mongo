@@ -7,10 +7,13 @@ import com.teste.vianuvem.exception.BadRequestException;
 import com.teste.vianuvem.exception.CallApiStartWarsException;
 import com.teste.vianuvem.exception.PlanetNotFoundException;
 import com.teste.vianuvem.mapper.PlanetMapper;
+import com.teste.vianuvem.mapper.StarshipMapper;
 import com.teste.vianuvem.model.Film;
 import com.teste.vianuvem.model.Planet;
+import com.teste.vianuvem.model.Starship;
 import com.teste.vianuvem.repository.FilmRepository;
 import com.teste.vianuvem.repository.PlanetRepository;
+import com.teste.vianuvem.repository.StarshipRepository;
 import com.teste.vianuvem.response.PlanetResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +39,16 @@ public class PlanetService {
    private FilmRepository filmRepository;
 
    @Autowired
+   private StarshipRepository starshipRepository;
+
+   @Autowired
    private RestTemplate restTemplate;
 
    @Autowired
    private PlanetMapper planetMapper;
+
+   @Autowired
+   private StarshipMapper starshipMapper;
 
 
    @Value("${app.api.start-wars.uri}")
@@ -60,11 +69,14 @@ public class PlanetService {
       planetRepository.deleteById(id);
    }
 
-   public List<Planet> getAllPlanet() {
-      return planetRepository.findAll();
+   public List<PlanetDTO> getAllPlanet() {
+      List<PlanetDTO> planets = new ArrayList<>();
+      planetRepository.findAll().forEach(ett -> planets.add(planetMapper.planetToPlanetDto(ett)));
+      return planets;
    }
 
    public PlanetDTO getPlanetById(Long planetId) {
+
       Optional<Planet> planetOptional = planetRepository.findById(planetId);
       Planet planet = planetOptional.orElseThrow(()
               -> new PlanetNotFoundException("planet_not_found"));
@@ -77,42 +89,55 @@ public class PlanetService {
       return planetMapper.planetToPlanetDto(byName);
    }
 
-   private List<StarshipDTO> getStarships( List<String> uris) {
+   private Set<Starship> getStarships( List<String> uris) {
 
-      List<StarshipDTO> starships = new ArrayList<>();
+      Set<Starship> starships = new HashSet<>();
       if(! CollectionUtils.isEmpty(uris)) {
          for (String uri : uris) {
-            starships.add(callStarshipService(uri));
+            starships.add(searchStarship(uri));
          }
       }
 
       return starships;
    }
 
-   private Set<Film> getFilms( List<String> uris)  {
+   private Starship searchStarship( String uri) {
 
+      Starship starship = starshipRepository.findByUrl(uri);
+      StarshipDTO starshipDTO;
+      if(starship == null) {
+         starshipDTO = callStarshipService(uri);
+         starship = starshipMapper.starshipDtoToFilm(starshipDTO);
+
+      }
+
+      return starship;
+   }
+
+
+   private Set<Film> getFilms( List<String> uris)  {
 
       Set<Film> films = new HashSet<>();
       if (! CollectionUtils.isEmpty(uris)) {
          for (String uri : uris) {
-            films.add(searchFilms( uri));
+            films.add(verifyExistFilmOrSaver( uri));
          }
       }
       return films;
    }
 
-   private Film searchFilms( String uri) {
+   private Film verifyExistFilmOrSaver( String uri) {
 
       Film film = filmRepository.findByUrl(uri);
       FilmDTO filmDTO;
 
       if(film == null) {
-
          filmDTO = callFilmService(uri);
-         filmDTO.setStarshipList(getStarships(filmDTO.getStarships()));
          film = FilmDTO.parseToFilmDTO(filmDTO);
-      }
+         film.setStarshipList(getStarships(filmDTO.getStarships()));
+         film = filmRepository.save(film);
 
+      }
 
       return film;
    }

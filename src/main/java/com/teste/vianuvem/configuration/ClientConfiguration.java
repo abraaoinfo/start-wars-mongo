@@ -29,16 +29,4 @@ public class ClientConfiguration {
     }
 
 
-
-
-    @Bean(name = "asyncExecutor")
-    public Executor executor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(5);
-        executor.setMaxPoolSize(5);
-        executor.setThreadNamePrefix("AsynchThread-");
-        executor.setQueueCapacity(500);
-        executor.initialize();
-        return executor;
-    }
 }

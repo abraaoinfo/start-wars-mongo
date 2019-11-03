@@ -35,7 +35,7 @@ public class PlanetController {
 
     @GetMapping
     @ApiOperation(value = "get all planet", response = List.class)
-    public ResponseEntity<List<Planet>> getPlanetAll()  {
+    public ResponseEntity<List<PlanetDTO>> getPlanetAll()  {
         return ResponseEntity.ok(planetService.getAllPlanet());
 
     }
@@ -48,7 +48,7 @@ public class PlanetController {
     }
 
 
-    @GetMapping("{/planetId}")
+    @GetMapping("/{planetId}")
     @ApiOperation(value = "get planet by id", response = PlanetDTO.class)
     public ResponseEntity<PlanetDTO> getPlanetById(@PathVariable Long planetId)  {
         return ResponseEntity.ok(planetService.getPlanetById(planetId));

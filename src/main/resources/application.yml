@@ -24,7 +24,7 @@ spring:
         rewriteBatchedStatements: true
         idle-timeout: 10000
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5Dialect
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
     show_sql: true
     hibernate:

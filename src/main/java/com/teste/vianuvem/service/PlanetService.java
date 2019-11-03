@@ -7,6 +7,7 @@ import com.teste.vianuvem.exception.BadRequestException;
 import com.teste.vianuvem.exception.CallApiStartWarsException;
 import com.teste.vianuvem.exception.PlanetNotFoundException;
 import com.teste.vianuvem.mapper.PlanetMapper;
+import com.teste.vianuvem.model.Film;
 import com.teste.vianuvem.model.Planet;
 import com.teste.vianuvem.repository.FilmRepository;
 import com.teste.vianuvem.repository.PlanetRepository;
@@ -21,9 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -49,7 +48,7 @@ public class PlanetService {
    @Transactional
    public void savePlanet(Planet planet){
       try {
-         planetRepository.saveAndFlush(planet);
+         planetRepository.save(planet);
       }catch (Exception ex){
          log.error("error_create_planet_{}",ex.getMessage());
          throw new RuntimeException("error_create_planet", ex);
@@ -65,14 +64,17 @@ public class PlanetService {
       return planetRepository.findAll();
    }
 
-   public Planet getPlanetById(Long planetId) {
-      Optional<Planet> planet = planetRepository.findById(planetId);
-      return planet.orElseThrow(() ->new PlanetNotFoundException("planet_not_found"));
+   public PlanetDTO getPlanetById(Long planetId) {
+      Optional<Planet> planetOptional = planetRepository.findById(planetId);
+      Planet planet = planetOptional.orElseThrow(()
+              -> new PlanetNotFoundException("planet_not_found"));
+
+      return planetMapper.planetToPlanetDto(planet);
    }
 
-   public Planet getPlanetByName(String name) {
-      return planetRepository.findByName(name);
-
+   public PlanetDTO getPlanetByName(String name) {
+      Planet byName = planetRepository.findByName(name);
+      return planetMapper.planetToPlanetDto(byName);
    }
 
    private List<StarshipDTO> getStarships( List<String> uris) {
@@ -87,10 +89,10 @@ public class PlanetService {
       return starships;
    }
 
-   private List<FilmDTO> getFilms( List<String> uris)  {
+   private Set<Film> getFilms( List<String> uris)  {
 
 
-      List<FilmDTO> films = new ArrayList<>();
+      Set<Film> films = new HashSet<>();
       if (! CollectionUtils.isEmpty(uris)) {
          for (String uri : uris) {
             films.add(searchFilms( uri));
@@ -99,46 +101,39 @@ public class PlanetService {
       return films;
    }
 
-   private FilmDTO searchFilms( String uri) {
+   private Film searchFilms( String uri) {
 
-      FilmDTO filmDTO = FilmDTO.parseToFilmDTO(filmRepository.findByUrl(uri));
+      Film film = filmRepository.findByUrl(uri);
+      FilmDTO filmDTO;
 
-      if(filmDTO == null) {
+      if(film == null) {
+
          filmDTO = callFilmService(uri);
          filmDTO.setStarshipList(getStarships(filmDTO.getStarships()));
+         film = FilmDTO.parseToFilmDTO(filmDTO);
       }
 
-      return filmDTO;
+
+      return film;
    }
 
 
-   public PlanetDTO createPlanet(String name)  {
+   public void createPlanet(String name)  {
 
       planetIsExist(name);
       PlanetDTO planetDTO = getPlanetStartWars(name);
-      planetDTO.setFilmsList(getFilms(planetDTO.getFilms()));
-      Planet planet = parsePlanetDtoToPlanet(planetDTO);
-      savePlanet(planet);
-      return planetDTO;
+      Planet planet =  planetMapper.planetDtoToPlanet(planetDTO);
+      planet.setFilmsList(getFilms(planetDTO.getFilms()));
 
+      savePlanet(planet);
    }
 
    private void planetIsExist(String name) {
-      Planet planetExist = getPlanetByName(name);
+      PlanetDTO planetExist = getPlanetByName(name);
       if(planetExist != null) {
          throw new BadRequestException("planet_has_already");
       }
    }
-
-
-   private Planet parsePlanetDtoToPlanet(PlanetDTO planetDTO){
-
-      Planet planet = planetMapper.planetDtoToPlanet(planetDTO);
-
-      return planet;
-   }
-
-
 
    private URI getUriSearchName(String name) {
       return UriComponentsBuilder

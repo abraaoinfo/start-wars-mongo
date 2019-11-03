@@ -33,7 +33,6 @@ public class PlanetController {
     }
 
 
-
     @GetMapping
     @ApiOperation(value = "get all planet", response = List.class)
     public ResponseEntity<List<Planet>> getPlanetAll()  {
@@ -41,22 +40,23 @@ public class PlanetController {
 
     }
 
-    @DeleteMapping("{/planetId}")
+    @DeleteMapping("/{planetId}")
     @ApiOperation(value = "delete planet by id")
     public void deletePlanet(@PathVariable Long planetId)  {
-         planetService.deletePlanet(planetId);
+
+        planetService.deletePlanet(planetId);
     }
 
 
     @GetMapping("{/planetId}")
     @ApiOperation(value = "get planet by id", response = PlanetDTO.class)
-    public ResponseEntity<Planet> getPlanetById(@PathVariable Long planetId)  {
+    public ResponseEntity<PlanetDTO> getPlanetById(@PathVariable Long planetId)  {
         return ResponseEntity.ok(planetService.getPlanetById(planetId));
     }
 
     @GetMapping(value = "/")
     @ApiOperation(value = "get planet by name", response = PlanetDTO.class)
-    public ResponseEntity<Planet> getPlanetByName(@RequestParam("name") String name)  {
+    public ResponseEntity<PlanetDTO> getPlanetByName(@RequestParam("name") String name)  {
         return  ResponseEntity.ok(planetService.getPlanetByName(name));
     }
 

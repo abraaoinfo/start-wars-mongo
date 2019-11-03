@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class FilmDTO {
 
+    private Long id;
     private Long episodeId;
     private String title;
     private String director;
@@ -24,9 +25,20 @@ public class FilmDTO {
         FilmDTO filmDTO =null;
         if(film != null) {
             filmDTO = new FilmDTO();
-            BeanUtils.copyProperties(filmDTO, film);
+            BeanUtils.copyProperties(film, filmDTO);
         }
         return filmDTO;
+
+    }
+
+
+    public static Film parseToFilmDTO(FilmDTO filmDTO){
+        Film film =null;
+        if(filmDTO != null) {
+            film = new Film();
+            BeanUtils.copyProperties(filmDTO, film);
+        }
+        return film;
 
     }
 

@@ -42,10 +42,11 @@ Obs. Não é necessario para executar a aplicação, mas é recomendado instalar
 ## Tecnologias usadas.
 
 - spring-boot
+- spring data
 - java 8
 - lombok
 - maven
--mongo
+- mongo
 
 
 ## Divida Tecnicas

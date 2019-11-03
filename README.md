@@ -1,6 +1,6 @@
 # Api Start Wars
 
-Api permite criar planeta desde que o mesmo esta na api publica do start wars, lista, deletar, buscar por id,
+Api permite criar planeta desde que o mesmo esteja na api publica do start wars, lista, deletar, buscar por id,
 buscar por nome e deletar.
 
 

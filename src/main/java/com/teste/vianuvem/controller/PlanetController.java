@@ -42,7 +42,7 @@ public class PlanetController {
 
     @DeleteMapping("/{planetId}")
     @ApiOperation(value = "delete planet by id")
-    public void deletePlanet(@PathVariable Long planetId)  {
+    public void deletePlanet(@PathVariable String planetId)  {
 
         planetService.deletePlanet(planetId);
     }
@@ -50,7 +50,7 @@ public class PlanetController {
 
     @GetMapping("/{planetId}")
     @ApiOperation(value = "get planet by id", response = PlanetDTO.class)
-    public ResponseEntity<PlanetDTO> getPlanetById(@PathVariable Long planetId)  {
+    public ResponseEntity<PlanetDTO> getPlanetById(@PathVariable String planetId)  {
         return ResponseEntity.ok(planetService.getPlanetById(planetId));
     }
 

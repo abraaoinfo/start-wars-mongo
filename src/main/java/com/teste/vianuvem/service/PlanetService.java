@@ -11,9 +11,7 @@ import com.teste.vianuvem.mapper.StarshipMapper;
 import com.teste.vianuvem.model.Film;
 import com.teste.vianuvem.model.Planet;
 import com.teste.vianuvem.model.Starship;
-import com.teste.vianuvem.repository.FilmRepository;
 import com.teste.vianuvem.repository.PlanetRepository;
-import com.teste.vianuvem.repository.StarshipRepository;
 import com.teste.vianuvem.response.PlanetResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +32,6 @@ public class PlanetService {
 
    @Autowired
    private PlanetRepository planetRepository;
-
-   @Autowired
-   private FilmRepository filmRepository;
-
-   @Autowired
-   private StarshipRepository starshipRepository;
 
    @Autowired
    private RestTemplate restTemplate;
@@ -65,7 +57,7 @@ public class PlanetService {
 
    }
 
-   public void deletePlanet(Long id){
+   public void deletePlanet(String id){
       planetRepository.deleteById(id);
    }
 
@@ -75,7 +67,7 @@ public class PlanetService {
       return planets;
    }
 
-   public PlanetDTO getPlanetById(Long planetId) {
+   public PlanetDTO getPlanetById(String planetId) {
 
       Optional<Planet> planetOptional = planetRepository.findById(planetId);
       Planet planet = planetOptional.orElseThrow(()
@@ -103,14 +95,8 @@ public class PlanetService {
 
    private Starship searchStarship( String uri) {
 
-      Starship starship = starshipRepository.findByUrl(uri);
-      StarshipDTO starshipDTO;
-      if(starship == null) {
-         starshipDTO = callStarshipService(uri);
-         starship = starshipMapper.starshipDtoToFilm(starshipDTO);
-
-      }
-
+      StarshipDTO starshipDTO = callStarshipService(uri);
+      Starship starship = starshipMapper.starshipDtoToFilm(starshipDTO);
       return starship;
    }
 
@@ -127,18 +113,9 @@ public class PlanetService {
    }
 
    private Film verifyExistFilmOrSaver( String uri) {
-
-      Film film = filmRepository.findByUrl(uri);
-      FilmDTO filmDTO;
-
-      if(film == null) {
-         filmDTO = callFilmService(uri);
-         film = FilmDTO.parseToFilmDTO(filmDTO);
-         film.setStarshipList(getStarships(filmDTO.getStarships()));
-         film = filmRepository.save(film);
-
-      }
-
+      FilmDTO filmDTO = callFilmService(uri);
+      Film film = FilmDTO.parseToFilmDTO(filmDTO);
+      film.setStarshipList(getStarships(filmDTO.getStarships()));
       return film;
    }
 

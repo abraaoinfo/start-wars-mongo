@@ -11,14 +11,12 @@ import java.util.List;
 @Data
 public class FilmDTO {
 
-    private Long id;
     private String title;
     private String director;
     private LocalDateTime created;
     private String producer;
     private List<StarshipDTO> starshipList;
     private String url;
-    @JsonIgnore
     private List<String> starships;
 
 

@@ -1,18 +1,36 @@
-# Api start wars
+# Api Start Wars
 
-[![Build Status](https://travis-ci.org/ghusta/swapi-java-client.svg?branch=master)](https://travis-ci.org/ghusta/swapi-java-client)
+Api permite criar planet desde que o o mesmo na api publica do start wars, lista, deletar, buscar por id,
+buscar por nome e deletar.
 
-The [SWAPI (Star Wars API)](https://swapi.co/) client for Java
 
-## How to run test
-```
-mvn test
-```
+A aplicação disponibiliza alguns endpoints 
 
-## Upgrade to Retrofit 2
 
-See [Retrofit 2 — Upgrade Guide from 1.9](https://futurestud.io/tutorials/retrofit-2-upgrade-guide-from-1-9)
+### API
 
-## SWAPI documentation
+ - **Busca todo os planetas**
 
-- https://swapi.co/documentation
+    - **[+GET+]** -  [http://localhost:8000/v1/planets](http://localhost:8000/v1/planets)
+    
+ - **Busca planeta por id**
+ 
+     - **[+GET+]** -  [http://localhost:8000/v1/planets/id](http://localhost:8000/v1/planets/id)
+     
+ - **Busca planeta por nome**
+ 
+     - **[+GET+]** -  [http://localhost:8000/v1/planets/?name=](http://localhost:8000/v1/planets/?name=)     
+        
+    
+- **Delete planet por id**
+    
+    - **[+Delete+]** - [http://localhost:8000/v1/planets/id](http://localhost:8000/v1/planets/id])
+    
+- **criar  planeta**  
+    
+    - **[+POST+]** - [http://localhost:8000/v1/planets](http://localhost:8000/v1/planets/)
+    
+    
+
+
+

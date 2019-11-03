@@ -39,6 +39,20 @@ mvn spring-boot:run
 
 Obs. Não é necessario para executar a aplicação, mas é recomendado instalar o puglin do lombok na idea.
 
+## Tecnologias usadas.
+
+- spring-boot
+- java 8
+- lombok
+- maven
+-mongo
+
+
+## Divida Tecnicas
+
+Não foram feito od teste unitario e nem intregado, apaser da sua importancia.
+Não foi feito processo paralelo para as varias chamadas a api publica.
+
 
 
 

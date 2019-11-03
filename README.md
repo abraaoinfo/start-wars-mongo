@@ -37,6 +37,8 @@ A aplicação disponibiliza alguns endpoints
 mvn clean install
 mvn spring-boot:run
 
+Obs. Não é necessario para executar a aplicação, mas é recomendado instalar o puglin do lombok na idea.
+
 
 
 

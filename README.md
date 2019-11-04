@@ -37,6 +37,12 @@ A aplicação disponibiliza alguns endpoints
 mvn clean install
 mvn spring-boot:run
 
+### Payload de entrada.
+metodo post; { "name": "Tatooine" }
+Obs. resto da informações será pego da api start wars publica
+
+
+
 Obs. Não é necessario para executar a aplicação, mas é recomendado instalar o puglin do lombok na idea.
 
 ## Tecnologias usadas.
